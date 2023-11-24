@@ -5,10 +5,9 @@
 #include <iostream>
 #include <vector>
 #include <string>
-using namespace std;
 
-vector<off_t> ehpOffsets;
-vector<uint32_t> ehpSizes;
+std::vector<off_t> ehpOffsets;
+std::vector<uint32_t> ehpSizes;
 
 void* filebuffer;
 
@@ -20,12 +19,12 @@ void* filebuffer;
 #define path_separator "\\"
 #endif
 
-int ScanEHPs(string fName)
+int ScanEHPs(std::string fName)
 {
     FILE* f = fopen(fName.c_str(), "rb");
     if (!f)
     {
-        cout << "Can't open " << fName << " for reading\n";
+        std::cout << "Can't open " << fName << " for reading\n";
         perror("");
         return -1;
     }
@@ -49,7 +48,7 @@ int ScanEHPs(string fName)
 
     if (ehpOffsets.size() == 0)
     {
-        cout << "Couldn't find any EhFolders!\n";
+        std::cout << "Couldn't find any EhFolders!\n";
         return -2;
     }
 
@@ -58,34 +57,34 @@ int ScanEHPs(string fName)
     return 0;
 }
 
-int ExtractEHPs(string fName, string outPath)
+int ExtractEHPs(std::string fName, std::string outPath)
 {
     FILE* f = fopen(fName.c_str(), "rb");
     FILE* fout;
 
     if (!f)
     {
-        cout << "Can't open " << fName << " for reading\n";
+        std::cout << "Can't open " << fName << " for reading\n";
         perror("");
         return -1;
     }
 
-    string outFile;
-    string fName_Separate = fName;
+    std::string outFile;
+    std::string fName_Separate = fName;
 
     size_t found = fName_Separate.find_last_of("/\\");
-    if (found != string::npos)
+    if (found != std::string::npos)
         fName_Separate = fName_Separate.substr(found + 1);
 
     for (int i = 0; i < ehpOffsets.size(); i++)
     {
-        outFile = outPath + path_separator + fName_Separate + "_" + to_string(i) + ".ehp";
-        cout << "Writing: " << outFile << "\n";
+        outFile = outPath + path_separator + fName_Separate + "_" + std::to_string(i) + ".ehp";
+        std::cout << "Writing: " << outFile << "\n";
 
         fout = fopen(outFile.c_str(), "wb");
         if (!fout)
         {
-            cout << "Can't open " << outFile << " for writing\n";
+            std::cout << "Can't open " << outFile << " for writing\n";
             perror("");
             return -3;
         }
@@ -105,12 +104,12 @@ int ExtractEHPs(string fName, string outPath)
 
 int main(int argc, char* argv[])
 {
-    cout << "EhFolder scanner\n";
+    std::cout << "EhFolder scanner\n";
 
     if (argc <= 1)
     {
-        cout << "USAGE: " << argv[0] << " InFile [OutPath]\n";
-        cout << "USAGE (scan only): " << argv[0] << " -s InFile\n";
+        std::cout << "USAGE: " << argv[0] << " InFile [OutPath]\n";
+        std::cout << "USAGE (scan only): " << argv[0] << " -s InFile\n";
         return -5;
     }
 
@@ -123,10 +122,10 @@ int main(int argc, char* argv[])
 
     if (argc == 2)
     {
-        string outPath = argv[1];
+        std::string outPath = argv[1];
         size_t found = outPath.find_last_of("/\\");
 
-        if (found == string::npos)
+        if (found == std::string::npos)
             return ExtractEHPs(argv[1], ".");
 
         return ExtractEHPs(argv[1], outPath.substr(0, found));

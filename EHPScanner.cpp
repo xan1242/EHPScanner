@@ -508,7 +508,7 @@ int main(int argc, char* argv[])
         std::cout << "USAGE: " << argv[0] << " InFile [OutPath]\n";
         std::cout << "USAGE (scan only): " << argv[0] << " -s InFile\n";
         std::cout << "USAGE (force non-ELF mode): " << argv[0] << " -f InFile [OutPath]\n";
-        std::cout << "USAGE (force non-ELF & scan): " << argv[0] << " -f -s InFile [OutPath]\n";
+        std::cout << "USAGE (force non-ELF & scan): " << argv[0] << " -f -s InFile\n";
         return -5;
     }
 
